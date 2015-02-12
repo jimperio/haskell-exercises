@@ -25,3 +25,24 @@ data BillingInfo = CreditCard CardNumber CardHolder Address
                  | CashOnDelivery
                  | Invoice CustomerID
                    deriving (Show)
+
+-- Accessing fields
+nicerID      (Book id _     _      ) = id
+nicerTitle   (Book _  title _      ) = title
+nicerAuthors (Book _  _     authors) = authors
+
+-- Tidier way of declaring data and accessors
+data Customer = Customer {
+      customerID      :: CustomerID
+    , customerName    :: String
+    , customerAddress :: Address
+    } deriving (Show)
+
+-- More verbose way of creating a record
+customer2 = Customer {
+              customerID = 271828
+            , customerAddress = ["1048576 Disk Drive",
+                                 "Milpitas, CA 95134",
+                                 "USA"]
+            , customerName = "Jane Q. Citizen"
+            }
