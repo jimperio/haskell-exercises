@@ -47,7 +47,7 @@ groupBy_fold f (x:xs) = snd (foldl step (x, [[x]]) xs)
   where step (y, res) x | f y x     = (y, (init res) ++ [(last res) ++ [x]])
                         | otherwise = (x, res ++ [[x]])
 
--- 6: Define the ff. in terms of folds: a) `any`, `cycle`, `words`, `unlines`.
+-- 6: Define the ff. in terms of folds: `any`, `cycle`, `words`, `unlines`.
 any_fold :: (a -> Bool) -> [a] -> Bool
 any_fold _ [] = False
 any_fold f xs = foldr step False xs
