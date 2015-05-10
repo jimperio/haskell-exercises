@@ -35,33 +35,53 @@ countColors c = map countColor colors
 
 -- Count number of matches between the actual code and the guess
 matches :: Code -> Code -> Int
-matches = undefined
+matches c g = sum (map getMin (zip (countColors c) (countColors g)))
+  where getMin x = min (fst x) (snd x)
 
 -- Exercise 3 -----------------------------------------
 
 -- Construct a Move from a guess given the actual code
 getMove :: Code -> Code -> Move
-getMove = undefined
+getMove c g = Move g exact nonExact
+  where exact    = exactMatches c g
+        nonExact = matches c g - exact
 
 -- Exercise 4 -----------------------------------------
+code :: Move -> Code
+code  (Move c _ _) = c
 
 isConsistent :: Move -> Code -> Bool
-isConsistent = undefined
+isConsistent m c = m == (getMove c (code m))
 
 -- Exercise 5 -----------------------------------------
 
 filterCodes :: Move -> [Code] -> [Code]
-filterCodes = undefined
+filterCodes m gs = filter (isConsistent m) gs
 
 -- Exercise 6 -----------------------------------------
 
 allCodes :: Int -> [Code]
-allCodes = undefined
+allCodes 0 = []
+allCodes 1 = map (\c -> [c]) colors
+allCodes n = allCodesHelper (allCodes (n - 1))
+
+allCodesHelper :: [Code] -> [Code]
+allCodesHelper gs = concatMap addColors gs
+  where addColors g  = map (\c -> c:g) colors
 
 -- Exercise 7 -----------------------------------------
 
 solve :: Code -> [Move]
-solve = undefined
+solve c = solveHelper c [getMove c firstCode] remainingCodes
+  where firstCode      = take (length c) (repeat Red)
+        remainingCodes = filter (/= firstCode) (allCodes (length c))
+
+solveHelper :: Code -> [Move] -> [Code] -> [Move]
+solveHelper c ms rcs
+  | code (last ms) == c = ms
+  | otherwise           = solveHelper c (ms ++ [nextMove]) filteredCodes
+  where nextMove      = getMove c (head rcs)
+        filteredCodes = filterCodes nextMove (tail rcs)
 
 -- Bonus ----------------------------------------------
 
