@@ -9,6 +9,16 @@ every xs n = case drop (n - 1) xs of
                [] -> []
 
 -- Exercise 2: Local maxima
+-- Shorter and simpler attempt.
+-- (Why did it ever seem more natural to generate groups??)
+localMaxima :: [Integer] -> [Integer]
+localMaxima is = h [] is
+
+h :: [Integer] -> [Integer] -> [Integer]
+h ms (i:j:k:is) = h ms' (j:k:is)
+  where ms' = if j > i && j > k then ms ++ [j] else ms
+h ms _     = ms
+
 -- Works, but feels like it could still be a lot more concise...
 localMaximaOld :: [Integer] -> [Integer]
 localMaximaOld is = map getMax $ filter hasMax $ group is
@@ -32,16 +42,6 @@ hasMax _            = False
 -- XXX: Unsafe!
 getMax :: [Integer] -> Integer
 getMax (_:y:_:[]) = y
-
--- Shorter and simpler attempt.
--- (Why did it ever seem more natural to generate groups??)
-localMaxima :: [Integer] -> [Integer]
-localMaxima is = h [] is
-
-h :: [Integer] -> [Integer] -> [Integer]
-h ms (i:j:k:is) = h ms' (j:k:is)
-  where ms' = if j > i && j > k then ms ++ [j] else ms
-h ms _     = ms
 
 -- Exercise 3: Histogram
 -- histogram :: [Integer] -> String
