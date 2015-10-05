@@ -5,8 +5,8 @@ skips xs = map (every xs) [1..length xs]
 every :: [a] -> Int -> [a]
 -- Arguments flipped from natural order to save characters using `flip` above
 every xs n = case drop (n - 1) xs of
-	           (y:ys) -> y : every ys n
-	           [] -> []
+               (y:ys) -> y : every ys n
+               [] -> []
 
 -- Exercise 2: Local maxima
 -- Works, but feels like it could still be a lot more concise...
