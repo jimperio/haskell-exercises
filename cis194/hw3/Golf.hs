@@ -21,14 +21,14 @@ h ms _     = ms
 
 -- Works, but feels like it could still be a lot more concise...
 localMaximaOld :: [Integer] -> [Integer]
-localMaximaOld is = map getMax $ filter hasMax $ group is
+localMaximaOld is = map getMax $ filter hasMax $ grp is
 
 -- Generate all group of 3, e.g.:
 -- [1,2,3,4,5] -> [[1,2,3],[2,3,4],[3,4,5]]
-group :: [Integer] -> [[Integer]]
-group [] = []
-group s@(x:xs)
-  | length s > 2 = (take 3 s) : group xs
+grp :: [Integer] -> [[Integer]]
+grp [] = []
+grp s@(x:xs)
+  | length s > 2 = (take 3 s) : grp xs
   | otherwise    = []
 
 -- Does a group contain a local maximum?
